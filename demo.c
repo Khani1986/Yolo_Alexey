@@ -191,7 +191,8 @@ void demo(char *cfgfile, char *weightfile, float thresh, float hier_thresh, int 
     }
 
     int count = 0;
-    if(!prefix && !dont_show){
+    if(!dont_show){ //this is added according to https://github.com/AlexeyAB/darknet/issues/860
+    //if(!prefix && !dont_show){ //this is commented out
         cvNamedWindow("Demo", CV_WINDOW_NORMAL);
         cvMoveWindow("Demo", 0, 0);
         cvResizeWindow("Demo", 1352, 1013);
@@ -244,7 +245,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, float hier_thresh, int 
             draw_detections_cv_v3(show_img, local_dets, local_nboxes, demo_thresh, demo_names, demo_alphabet, demo_classes, demo_ext_output);
             free_detections(local_dets, local_nboxes);
 
-            if(!prefix){
+            //if(!prefix){
                 if (!dont_show) {
                     show_image_cv_ipl(show_img, "Demo");
                     int c = cvWaitKey(1);
@@ -259,11 +260,11 @@ void demo(char *cfgfile, char *weightfile, float thresh, float hier_thresh, int 
                         flag_exit = 1;
                     }
                 }
-            }else{
+            //}else{
                 char buff[256];
                 sprintf(buff, "%s_%08d.jpg", prefix, count);
                 if(show_img) save_cv_jpg(show_img, buff);
-            }
+            //}
 
             // if you run it with param -mjpeg_port 8090  then open URL in your web-browser: http://localhost:8090
             if (mjpeg_port > 0 && show_img) {
