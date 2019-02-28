@@ -1073,6 +1073,21 @@ void show_image_cv_ipl(IplImage *disp, const char *name)
     //cvMoveWindow(buff, 100*(windows%10) + 200*(windows/10), 100*(windows%10));
     ++windows;
     cvShowImage(buff, disp);
+        {
+            CvSize size;
+            size.width = disp->width;
+            size.height = disp->height;
+            
+            static CvVideoWriter* output_video = NULL;    // cv::VideoWriter output_video;
+            if (output_video == NULL)
+            {
+                printf("\n SRC output_video = %p \n", output_video);
+                const char* output_name = "test_dnn_out.avi";
+                output_video = cvCreateVideoWriter(output_name, CV_FOURCC('M', 'P', '4', '2'), 25, size, 1);
+                printf("\n cvCreateVideoWriter, DST output_video = %p  \n", output_video);
+            }
+            cvWriteFrame(output_video, disp);
+        }
     //cvReleaseImage(&disp);
 }
 #endif  // OPENCV
